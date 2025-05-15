@@ -97,12 +97,14 @@ Podsumowując, teoretyczny fundament WordPressa stanowi połączenie prostoty u�
 
 ## Porównanie najpopularniejszych motywów
 
-| Motyw               | Typ licencji | Responsywność | Liczba instalacji | Główne funkcje                         |
-|---------------------|--------------|---------------|-------------------|----------------------------------------|
-| **Astra**           | Free/Paid    | ✔             | >1 000 000        | Lekki, wtyczki SEO, buildery           |
-| **GeneratePress**   | Free/Paid    | ✔             | >500 000          | Szybki, modularny, kompatybilny z Gutenberg |
-| **OceanWP (Free)**  | Free/Paid    | ✔             | >700 000          | Demo import, WooCommerce, popup builder|
-| **Neve**            | Free/Paid    | ✔             | >200 000          | AMP-ready, header builder              |
+## Porównanie najpopularniejszych motywów według kluczowych możliwości
+
+| Motyw             | Cena roczna (PLN) | FSE   | Customizer | Demo import     | Typografia               | WooCommerce-ready | Header/Footer Builder | Mega Menu | Global Styles | RTL Support | Performance       |
+|-------------------|-------------------|-------|------------|-----------------|--------------------------|-------------------|-----------------------|-----------|---------------|-------------|-------------------|
+| **Astra**         | ~250 PLN          | ❌    | ✅         | >100 szablonów  | Rozbudowane ustawienia   | ✅                | ✅                    | ✅        | ✅            | ✅          | Bardzo lekki      |
+| **GeneratePress** | ~250 PLN          | ❌    | ✅         | ~60 szablonów   | Elastyczne, podstawowe   | ✅                | ❌ (hooki)            | ❌        | ❌            | ✅          | Ekstremalnie lekki|
+| **OceanWP**       | ~165 PLN          | ❌    | ✅         | >50 szablonów   | Dobre                    | ✅                | ✅                    | ✅        | Ograniczone   | ✅          | Średnio lekki     |
+| **Blocksy**       | ~210 PLN          | ✅    | ✅         | >40 szablonów   | Pełna kontrola           | ✅ (Pro)          | ✅                    | ✅        | ✅            | ✅          | Lekki             |
 
 ---
 
