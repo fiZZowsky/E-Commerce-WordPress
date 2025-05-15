@@ -97,8 +97,6 @@ Podsumowując, teoretyczny fundament WordPressa stanowi połączenie prostoty u�
 
 ## Porównanie najpopularniejszych motywów
 
-## Porównanie najpopularniejszych motywów według kluczowych możliwości
-
 | Motyw             | Cena roczna (PLN) | FSE   | Customizer | Demo import     | Typografia               | WooCommerce-ready | Header/Footer Builder | Mega Menu | Global Styles | RTL Support | Performance       |
 |-------------------|-------------------|-------|------------|-----------------|--------------------------|-------------------|-----------------------|-----------|---------------|-------------|-------------------|
 | **Astra**         | ~250 PLN          | ❌    | ✅         | >100 szablonów  | Rozbudowane ustawienia   | ✅                | ✅                    | ✅        | ✅            | ✅          | Bardzo lekki      |
