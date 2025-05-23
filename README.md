@@ -220,3 +220,40 @@ docker-compose up -d
 
   e) czas wdrożenia:
   Na wykonanie wszystkich wymaganych kroków potrzebnych do uruchomienia strony startowej w wordpress potrzebne było około **15 minut**.
+
+---
+## Podłączenie i komunikacja z bazą danych
+
+---
+## Zarządzanie produktami
+
+---
+## Zarządzanie użytkownikami
+
+---
+## Koszyk i zamówienia
+
+---
+## Panel administratora
+
+---
+## Wydajność
+
+---
+## Rozszerzalność
+
+---
+## Szablony i wygląd (UI/UX)
+
+---
+## Bezpieczeństwo
+
+---
+## Cena i czas developmentu
+
+---
+## Testowanie
+
+---
+## Społeczność i dokumentacja
+
