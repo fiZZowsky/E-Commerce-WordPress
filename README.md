@@ -201,8 +201,8 @@ Podłączenie do bazy danych w projekcie Wordpress można zrealizować na kilka 
 
 - Pierwszy sposób polega na utworzeniu projektu wordpressa i modyfikacji wygenerowanego pliku `wp-config.php`. 
 
-   > [!NOTE]
-   > Plik wp-config.php to pierwszy załadowany przez WordPressa plik konfiguracyjny, który definiuje wszystkie kluczowe ustawienia witryny. Zawiera dane dostępu do bazy danych (nazwa, użytkownik, hasło, host) oraz prefiks tabel, dzięki czemu WordPress wie, gdzie i jak przechowywać swoje tabele. W tym samym miejscu umieszczone są tzw. klucze tajne (authentication keys i salts), które zabezpieczają pliki cookie i sesje użytkowników, a także opcje debugowania (WP_DEBUG i WP_DEBUG_LOG), pozwalające na rejestrowanie błędów w czasie tworzenia i testowania witryny. Dzięki centralizacji tych ustawień w jednym pliku możliwe jest szybkie uruchomienie, modyfikacja i zabezpieczenie środowiska WordPressa.
+> [!NOTE]
+> Plik wp-config.php to pierwszy załadowany przez WordPressa plik konfiguracyjny, który definiuje wszystkie kluczowe ustawienia witryny. Zawiera dane dostępu do bazy danych (nazwa, użytkownik, hasło, host) oraz prefiks tabel, dzięki czemu WordPress wie, gdzie i jak przechowywać swoje tabele. W tym samym miejscu umieszczone są tzw. klucze tajne (authentication keys i salts), które zabezpieczają pliki cookie i sesje użytkowników, a także opcje debugowania (WP_DEBUG i WP_DEBUG_LOG), pozwalające na rejestrowanie błędów w czasie tworzenia i testowania witryny. Dzięki centralizacji tych ustawień w jednym pliku możliwe jest szybkie uruchomienie, modyfikacja i zabezpieczenie środowiska WordPressa.
    
    W pliku tym dane podłączenia do bazy można ustawić na dwa sposoby:
    - poprzez zdefiniowanie w kodzie stałych takich jak `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`
