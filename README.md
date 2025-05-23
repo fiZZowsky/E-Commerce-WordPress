@@ -144,59 +144,32 @@ Podsumowując, teoretyczny fundament WordPressa stanowi połączenie prostoty u�
 version: '3.7'
 
 services:
-  db:
-    image: mariadb:10
-    container_name: wordpress-db
-    restart: always
-    volumes:
-      - db_data:/var/lib/mysql
-      - db_backups:/backups
-    environment:
-      MYSQL_DATABASE: <DB_NAME>
-      MYSQL_USER: <DB_USER>
-      MYSQL_PASSWORD: <DB_PASSWORD>
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
-      MYSQL_ROOT_PASSWORD: <DB_ROOT_PASSWORD>
-
   wordpress:
     image: wordpress:latest
-    container_name: wordpress
+    container_name: wp
     restart: always
-    depends_on:
-      - db
     ports:
       - "8080:80"
-    links:
-      - db
     volumes:
       - wp_data:/var/www/html
-      - wp_backups:/backups
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: <DB_HOST>
       WORDPRESS_DB_NAME: <DB_NAME>
       WORDPRESS_DB_USER: <DB_USER>
       WORDPRESS_DB_PASSWORD: <DB_PASSWORD>
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:4.7
-    container_name: wordpress-phpmyadmin
+    container_name: wp-phpmyadmin
     restart: always
-    depends_on:
-      - db
     ports:
       - "12000:80"
-    links:
-      - db:db
-    volumes:
-      - pma_backups:/backups
     environment:
-      PMA_HOST: db
-      PMA_USER: <DB_USER>
-      PMA_PASSWORD: <DB_PASSWORD>
+      PMA_HOST: <DB_PMA_HOST>
+      PMA_USER: <DB_PMA_USER>
+      PMA_PASSWORD: <DB_PMA_PASSWORD>
 
 volumes:
-  db_data:
-  db_backups:
   wp_data:
   wp_backups:
   pma_backups:
@@ -223,6 +196,60 @@ docker-compose up -d
 
 ---
 ## Podłączenie i komunikacja z bazą danych
+
+Podłączenie do bazy danych w projekcie Wordpress można zrealizować na kilka sposobów.
+
+- Pierwszy sposób polega na utworzeniu projektu wordpressa i modyfikacji wygenerowanego pliku `wp-config.php`. 
+
+   > [!NOTE]
+   > Plik wp-config.php to pierwszy załadowany przez WordPressa plik konfiguracyjny, który definiuje wszystkie kluczowe ustawienia witryny. Zawiera dane dostępu do bazy danych (nazwa, użytkownik, hasło, host) oraz prefiks tabel, dzięki czemu WordPress wie, gdzie i jak przechowywać swoje tabele. W tym samym miejscu umieszczone są tzw. klucze tajne (authentication keys i salts), które zabezpieczają pliki cookie i sesje użytkowników, a także opcje debugowania (WP_DEBUG i WP_DEBUG_LOG), pozwalające na rejestrowanie błędów w czasie tworzenia i testowania witryny. Dzięki centralizacji tych ustawień w jednym pliku możliwe jest szybkie uruchomienie, modyfikacja i zabezpieczenie środowiska WordPressa.
+   
+   W pliku tym dane podłączenia do bazy można ustawić na dwa sposoby:
+   - poprzez zdefiniowanie w kodzie stałych takich jak `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`
+   - pobieranie zmiennych środowiskowych z `$_ENV` lub `getenv()`
+   
+   ```php
+   define('DB_NAME',     'nazwa_bazy');
+   define('DB_USER',     'użytkownik');
+   define('DB_PASSWORD', 'hasło');
+   define('DB_HOST',     'localhost:3306');
+   ```
+
+- Drugi sposób polaga na utworzeniu połączenia z bazą danych poprzez odpowiednią konfigurację w pliku `docker-compose.yml` (zakładając że projekt wordpressa tworzony jest na Dockerze). Działa to na bardzo podobnej zasadzie co ustawianie zmiennych środowiskowych. Do kodu tworzenia kontenera należy dopisać poniższy fragment kodu:
+
+   ```yml
+   ...
+   wordpress:
+   ...
+   environment:
+     WORDPRESS_DB_HOST: db.example.com:3306
+     WORDPRESS_DB_NAME: mydb
+     WORDPRESS_DB_USER: user
+     WORDPRESS_DB_PASSWORD: pass
+   ...
+   phpmyadmin:
+   ...
+   environment:
+      PMA_HOST: <DB_PMA_HOST>
+      PMA_USER: <DB_PMA_USER>
+      PMA_PASSWORD: <DB_PMA_PASSWORD>
+   ```
+
+> [!NOTE]
+> Zdefiniowanie w pliku `docker-compose.yml` zmiennych `PMA_HOST`, `PMA_USER` i `PMA_PASSWORD`pozwala by kontener phpMyAdmin automatycznie nawiązywał połączenie z bazą danych MariaDB, bez konieczności ręcznego logowania się w interfejsie po starcie. Tak przygotowana usługa dostarcza w przeglądarce całe środowisko do zarządzania bazą danych – od przeglądania i edycji rekordów, przez wykonywanie zapytań SQL, aż po import i eksport danych, optymalizację tabel czy zarządzanie uprawnieniami użytkowników.
+
+- Trzecim sposobem na podłączenie do bazy danych jest użycie wtyczki do zewnętrznych źródeł danych. Istnieją wtyczki-most, które pozwalają łączyć się z innymi systemami (np. LDAP, zewnętrzne API, inne CMS'y), mapując tabele lub uwierzytelnianianie na wordpress.
+
+> [!TIP]
+> W przypadku podłączenia do bazy poprzez konfigurację z pliku `docket-compose.yml` poprawność połączenia można zweryfikwać poprzez zastosowanie kilku prostych komend w kosnoli.
+```
+docker exec -it wp bash
+php -r "echo 'Host: '.getenv('WORDPRESS_DB_HOST').PHP_EOL;"
+php -r "echo 'User: '.getenv('WORDPRESS_DB_USER').PHP_EOL;"
+php -r "echo 'Pass: '.getenv('WORDPRESS_DB_PASSWORD').PHP_EOL;"
+exit
+```
+Wyświetlenie poprawnych danych będzie oznaczać prawidłowe podłączenie do bazy.
 
 ---
 ## Zarządzanie produktami
