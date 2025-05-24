@@ -421,7 +421,7 @@ Zarządzanie strukturą adresów URL:
 
 ---
 
-Opisane możliwości panelu administracyjnego WordPress pozwalają na kompleksowe zarządzanie każdą stroną — od treści i mediów, przez wygląd i funkcje, aż po zaawansowane opcje wydajności i bezpieczeństwa.```
+Opisane możliwości panelu administracyjnego WordPress pozwalają na kompleksowe zarządzanie każdą stroną — od treści i mediów, przez wygląd i funkcje, aż po zaawansowane opcje wydajności i bezpieczeństwa.
 
 ---
 ## Wydajność
@@ -444,3 +444,16 @@ Opisane możliwości panelu administracyjnego WordPress pozwalają na kompleksow
 ---
 ## Społeczność i dokumentacja
 
+Oficjalne źródła wiedzy obu platform stanowią punkt wyjścia dla programistów i administratorów, jednak różnią się pod względem struktury, przejrzystości i zakresu dostępnych rozwiązań.
+
+WordPress udostępnia kompletną dokumentację na [wordpress.org/documentation](https://wordpress.org/documentation/), w której treści podzielono na sekcje: szybkość startu (getting started), przewodniki dla developerów (developer handbooks), instrukcje użytkownika (user guides) oraz obszerne rozdziały dotyczące motywów i wtyczek. Poszczególne artykuły pisane są przystępnym, nienadmiernie technicznym językiem, co ułatwia zrozumienie osobom o różnym poziomie doświadczenia. Przy większości tematów dostępne są fragmenty kodu, zrzuty ekranu i praktyczne przykłady, co sprawia, że nawet złożone zagadnienia stają się czytelne bez konieczności sięgania po dodatkowe materiały.
+
+Symfony natomiast prezentuje dokumentację na [symfony.com/doc/current](https://symfony.com/doc/current/), podzieloną na przewodniki „from zero to hero”, szczegółowy opis komponentów, najlepsze praktyki oraz instrukcje migracji między wersjami. Struktura materiałów jest bardziej techniczna i modułowa – każdy komponent (Routing, Security, Console itp.) ma odrębny rozdział, co pozwala skupić się na wąskich obszarach funkcjonalności. Przykłady kodu w PHP, YAML i XML są dokładne, lecz wymagają pewnej wprawy w odczycie i adaptacji, co może początkowo spowolnić proces nauki.
+
+Pod względem liczby dostępnych gotowych rozwiązań i fragmentów “gotowego do wdrożenia” kodu WordPress góruje dzięki ogromnemu ekosystemowi wtyczek i motywów oraz aktywnej społeczności publikującej tutoriale i snippet’y w setkach blogów. W efekcie większość typowych zadań (tworzenie formularza kontaktowego, integracja z API, konfiguracja SEO) można zrealizować w kilka minut, korzystając z gotowych materiałów. Symfony oferuje bardziej ustrukturyzowane wskazówki – każdy przykład ilustruje dobre praktyki i wzorce projektowe, ale wdrożenie często wymaga implementacji wielu kroków ręcznie, co zwiększa kontrolę kosztem szybkości.
+
+Ważnym elementem wsparcia są fora i kanały Q&A. WordPress.org/support gromadzi miliony wpisów i odpowiedzi, jednak duża liczba wątków może utrudniać szybkie odnalezienie rozwiązania specyficznego problemu. Symfony natomiast korzysta z oficjalnego forum, Slacka oraz Stack Overflow, gdzie mniejsza, ale wysoce wyspecjalizowana grupa ekspertów dostarcza odpowiedzi bardziej precyzyjne i zgodne z najlepszymi praktykami frameworka.
+
+Pod względem lokalizacji i dostępności materiałów WordPress wygrywa liczbą tłumaczeń (ponad 50 języków), co przekłada się na komfort nauki w rodzimym języku. Dokumentacja Symfony dostępna jest w kilkunastu wersjach językowych, a większość aktualizacji trafia na serwer centralny niemal równocześnie z wydaniem głównym, co zapewnia spójność treści, choć czasem kosztem opóźnień w tłumaczeniach.
+
+Podsumowując, WordPress oferuje bardziej przystępną, bogato ilustrowaną i szybko działającą dokumentację, idealną dla osób szukających szybkich rozwiązań i szerokiego wyboru gotowych fragmentów kodu. Symfony natomiast dostarcza głęboką, modułową dokumentację skupioną na dobrych praktykach i architekturze aplikacji, co może wymagać większego nakładu pracy, lecz jednocześnie gwarantuje solidne, długoterminowe podstawy projektowe.
