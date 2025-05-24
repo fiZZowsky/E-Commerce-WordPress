@@ -263,6 +263,166 @@ Wyświetlenie poprawnych danych będzie oznaczać prawidłowe podłączenie do b
 ---
 ## Panel administratora
 
+### Kokpit  
+![Kokpit WordPress](doc-resources/wp-admin.png)  
+Centralny pulpit nawigacyjny prezentuje kluczowe informacje i udostępnia szybki dostęp do najczęściej używanych funkcji:  
+- **Stan witryny (Site Health)**  
+  - Automatyczny monitoring wydajności, bezpieczeństwa oraz zgodności z zaleceniami WordPressa.  
+  - Wykrywanie przestarzałych wtyczek, brakujących rozszerzeń PHP czy nieprawidłowych uprawnień plików.  
+- **Powiadomienia i aktualizacje**  
+  - Informowanie o dostępnych wersjach WordPressa, motywów i wtyczek.  
+  - Jednoklikowa instalacja aktualizacji lub planowanie ich na dogodny moment.  
+- **Widżety szybkiego dostępu**  
+  - Tworzenie szkiców wpisów, stron lub zadań przy użyciu konfigurowalnych kafli.  
+  - Podsumowanie aktywności użytkowników i komentarzy w czasie rzeczywistym.  
+  - Możliwość dostosowania układu i widoczności widżetów w zależności od potrzeb administratora.
+
+---
+
+### Wpisy  
+![Sekcja Wpisy](doc-resources/wp-admin-strony.png)  
+Kompleksowe zarządzanie treścią blogową i newsami:  
+- **Blokowy edytor Gutenberg**  
+  - Komponowanie układów stron z wykorzystaniem predefiniowanych bloków (tekst, obrazy, galerie, multimedia, shortcodes).  
+  - Złożone konfiguracje kolumn, tła i stylów CSS bez konieczności pisania kodu.  
+- **Kategoryzacja i tagowanie**  
+  - Tworzenie hierarchii kategorii i oznaczanie wpisów tagami dla lepszej nawigacji i SEO.  
+  - Bulk–akcje na wielu wpisach jednocześnie (zmiana statusu, przypisanie kategorii).  
+- **Harmonogram publikacji**  
+  - Planowanie automatycznej publikacji wpisów w określonym dniu i godzinie.  
+  - Możliwość cofania terminu publikacji lub wcześniejszego udostępnienia treści.  
+- **Rewizje i historia zmian**  
+  - Śledzenie kolejnych wersji wpisu, porównywanie różnic i przywracanie wcześniejszych stanów.
+
+---
+
+### Media  
+![Biblioteka multimediów](doc-resources/wp-admin-media.png)  
+Zarządzanie wszystkimi zasobami graficznymi, wideo i dokumentami:  
+- **Przesyłanie i organizacja**  
+  - Import plików metodą drag-and-drop lub wybór z lokalnego dysku.  
+  - Automatyczne generowanie miniaturek w kilku rozmiarach (thumbnail, medium, large).  
+- **Edycja metadanych**  
+  - Uzupełnianie tytułu, opisu, tekstu alternatywnego (alt) i podpisu, co wpływa na optymalizację SEO i dostępność.  
+  - Modyfikacja parametrów obrazów (obrót, kadrowanie, skalowanie) wbudowanym edytorem.  
+- **Filtrowanie i przeszukiwanie**  
+  - Sortowanie zasobów według typu pliku, daty, nazwy lub rozmiaru.  
+  - Grupowe zaznaczanie i usuwanie niepotrzebnych plików.
+
+---
+
+### Strony  
+![Lista stron](doc-resources/wp-admin-strony.png)  
+Obsługa statycznych podstron witryny:  
+- **Hierarchia i atrybuty**  
+  - Tworzenie stron nadrzędnych i podrzędnych, definiowanie szablonów (np. pełna szerokość, z sidebar’em).  
+  - Ustalanie kolejności wyświetlania w menu poprzez ustawienie atrybutów „Kolejność”.  
+- **Szablony i bloki globalne**  
+  - Zastosowanie gotowych wzorców bloków lub zapis własnych bloków do ponownego wykorzystania.  
+  - Integracja z page builderami, umożliwiająca tworzenie dedykowanych wzorców stron.  
+- **Planowanie i dostęp**  
+  - Harmonogram publikacji, ochrona strony hasłem lub ograniczenie widoczności dla zarejestrowanych użytkowników.
+
+---
+
+### Edycja strony (Page Builder)  
+![Edycja strony – Page Builder](doc-resources/wp-admin-edycja-strony.png)  
+Zaawansowane narzędzie do tworzenia niestandardowych układów:  
+- **Drag & Drop**  
+  - Przeciąganie sekcji, kolumn i widżetów bezpośrednio na podgląd strony.  
+- **Elastyczne siatki (Flexbox / Grid)**  
+  - Konfiguracja kierunku, rozmieszczenia i proporcji elementów dla uzyskania responsywnego designu.  
+- **Stylizacja i animacje**  
+  - Definiowanie stylów tła, obramowań, cieni, marginesów i paddingów w intuicyjnym panelu.  
+  - Możliwość dodawania animacji wejścia elementów (fade, slide itp.) oraz efektów hover.
+
+---
+
+### Komentarze  
+Sekcja moderacji dyskusji nad treściami:  
+- **Automatyczne filtrowanie**  
+  - Wykrywanie spamu za pomocą reguł Akismet lub innych wtyczek antyspamowych.  
+- **Panel moderacji**  
+  - Szybkie akcje: zatwierdzenie, oznaczenie jako spam, przeniesienie do kosza.  
+  - Masowe operacje na wielu komentarzach jednocześnie.
+
+---
+
+### Wygląd  
+![Motywy i personalizacja](doc-resources/wp-admin-wyglad.png)  
+Dostosowanie wizualnej oprawy witryny:  
+- **Instalacja motywów**  
+  - Pobieranie i aktywacja motywów z oficjalnego repozytorium lub przesłanych archiwów.  
+- **Customizer w czasie rzeczywistym**  
+  - Podgląd zmian w układzie, kolorystyce, typografii, tle i nagłówkach przed zapisaniem.  
+  - Konfiguracja menu nawigacyjnego, widgetów w sidebarze i stopce.  
+- **Edytor plików motywu**  
+  - Bezpośrednia edycja plików szablonu (PHP, CSS, JS) z uwzględnieniem funkcji override w motywach potomnych (child themes).
+
+---
+
+### Wtyczki  
+![Zarządzanie wtyczkami](doc-resources/wp-admin-wtyczki.png)  
+Rozszerzanie funkcjonalności witryny:  
+- **Instalacja i aktywacja**  
+  - Wyszukiwanie, instalacja i konfiguracja wtyczek z oficjalnego repozytorium WP lub z lokalnych paczek.  
+- **Zarządzanie aktualizacjami**  
+  - Harmonogram automatycznych aktualizacji, przegląd dostępnych wersji i zabezpieczenie przed konfliktami.  
+- **Konfiguracja**  
+  - Bezpośrednie linki do stron ustawień każdej wtyczki, wsparcie dla multisite i ról użytkowników.
+
+---
+
+### Użytkownicy  
+Sekcja zarządzania kontami i uprawnieniami:  
+- **Role i uprawnienia**  
+  - Przypisywanie ról (Administrator, Redaktor, Autor, Współpracownik, Subskrybent) z różnymi poziomami dostępu.  
+- **Profil użytkownika**  
+  - Edycja danych osobowych, ustawień biogramu, avataru i haseł.  
+- **Import/eksport**  
+  - Masowe dodawanie użytkowników przez pliki CSV lub integracja z systemami LDAP/SSO.
+
+---
+
+### Narzędzia  
+Zestaw pomocniczych operacji administracyjnych:  
+- **Import/Eksport treści**  
+  - Eksport całej zawartości witryny lub wybranych elementów (wpisy, strony, komentarze) w formacie XML (WXR).  
+  - Import danych z zewnętrznych systemów (WordPress, Blogger, CSV).  
+- **Diagnostyka i konserwacja**  
+  - Site Health: szczegółowe raporty o konfiguracji serwera, wydajności i bezpieczeństwie.  
+  - Narzędzia deweloperskie: możliwość wykonania operacji naprawczych (reset permalinek, optymalizacja bazy danych).
+
+---
+
+### Ustawienia  
+
+#### Ogólne  
+![Ustawienia ogólne](doc-resources/wp-admin-ustawienia.png)  
+Konfiguracja podstawowa witryny:  
+- **Tożsamość witryny**  
+  - Nazwa, slogan (tagline) i favicon (ikonka przeglądarki).  
+- **Adresy URL**  
+  - Adres instalacji WordPress (WordPress Address URL) i adres strony widocznego front-endu (Site Address URL).  
+- **Użytkownicy**  
+  - Domyślna rola nowych rejestrujących się użytkowników, włączenie/wyłączenie rejestracji.  
+- **Lokalizacja**  
+  - Język interfejsu, strefa czasowa, format daty i czasu.
+
+#### Permalinki  
+![Permalinki](doc-resources/ustawienia-bezposrednie-odnosniki.png)  
+Zarządzanie strukturą adresów URL:  
+- **Gotowe schematy**  
+  - Prosty (identyfikator wpisu), Data + Nazwa, Miesiąc + Nazwa, Liczbowy, Nazwa wpisu.  
+- **Własny format**  
+  - Dowolne połączenie znaczników: `%year%`, `%monthnum%`, `%day%`, `%post_id%`, `%postname%`, `%category%`, `%author%`.  
+- **SEO i użyteczność**  
+  - Konstrukcja przyjaznych dla użytkownika i wyszukiwarek URL, eliminacja nieczytelnych parametrów.
+
+---
+
+Opisane możliwości panelu administracyjnego WordPress pozwalają na kompleksowe zarządzanie każdą stroną — od treści i mediów, przez wygląd i funkcje, aż po zaawansowane opcje wydajności i bezpieczeństwa.```
+
 ---
 ## Wydajność
 
