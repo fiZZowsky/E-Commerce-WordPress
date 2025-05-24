@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: wordpress-shop-db
+    restart: always
+    volumes:
+      - ecom_db_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: db_f2963
+      MYSQL_USER: f2963
+      MYSQL_PASSWORD: tFTXfRjJg1
+      MYSQL_ROOT_PASSWORD: rootSecurePw123
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress-shop
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ecom_wp_data:/var/www/html
+      - ecom_wp_backups:/backups
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: db_f2963
+      WORDPRESS_DB_USER: f2963
+      WORDPRESS_DB_PASSWORD: tFTXfRjJg1
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7
+    container_name: wordpress-shop-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    volumes:
+      - ecom_pma_backups:/backups
+    environment:
+      PMA_HOST: db
+      PMA_USER: f2963
+      PMA_PASSWORD: tFTXfRjJg1
+
+volumes:
+  ecom_db_data:
+  ecom_wp_data:
+  ecom_wp_backups:
+  ecom_pma_backups:
