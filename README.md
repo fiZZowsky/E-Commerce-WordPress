@@ -457,3 +457,6 @@ Ważnym elementem wsparcia są fora i kanały Q&A. WordPress.org/support gromadz
 Pod względem lokalizacji i dostępności materiałów WordPress wygrywa liczbą tłumaczeń (ponad 50 języków), co przekłada się na komfort nauki w rodzimym języku. Dokumentacja Symfony dostępna jest w kilkunastu wersjach językowych, a większość aktualizacji trafia na serwer centralny niemal równocześnie z wydaniem głównym, co zapewnia spójność treści, choć czasem kosztem opóźnień w tłumaczeniach.
 
 Podsumowując, WordPress oferuje bardziej przystępną, bogato ilustrowaną i szybko działającą dokumentację, idealną dla osób szukających szybkich rozwiązań i szerokiego wyboru gotowych fragmentów kodu. Symfony natomiast dostarcza głęboką, modułową dokumentację skupioną na dobrych praktykach i architekturze aplikacji, co może wymagać większego nakładu pracy, lecz jednocześnie gwarantuje solidne, długoterminowe podstawy projektowe.
+
+---
+## Podsumowanie
