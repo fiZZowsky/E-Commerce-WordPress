@@ -1,6 +1,8 @@
 # WordPress vs Symfony – Porównanie
 
-[![WordPress Version](https://img.shields.io/badge/WordPress-5.x-blue.svg)](https://wordpress.org/) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![WordPress Version](https://img.shields.io/badge/WordPress-5.x-red.svg)](https://wordpress.org/) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![Symfony Version](https://img.shields.io/badge/Symfony-6.4-orange.svg)](https://symfony.com/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 ---
 
@@ -117,10 +119,7 @@ Podsumowując, teoretyczny fundament WordPressa stanowi połączenie prostoty u�
 | **Koszyk i zamówienia**             | WooCommerce: automatyczne, API                               | Custom API, kontrolery, więcej kodu                          |
 | **Panel administratora**            | Gotowy WP-Admin, liczne wtyczki                              | EasyAdminBundle lub SonataAdmin, konfiguracja YAML/PHP       |
 | **Wydajność**                       | Caching pluginy (WP Super Cache, W3 Total Cache)             | HTTP Cache, OPcache, Varnish                                 |
-| **Rozszerzalność**                  | Wtyczki, hooki, filtry                                       | Bundles, EventDispatcher, Dependency Injection               |
 | **Szablony i wygląd**               | PHP Template, Gutenberg Blocks                               | Twig, komponenty, Assetic                                    |
-| **Bezpieczeństwo**                  | Core + pluginy zabezpieczające                               | Security Bundle, własne policy, HTTPS                        |
-| **Cena i czas developmentu**        | Szybkie MVP dzięki gotowym rozwiązaniom                      | Dłuższy czas (kilka tygodni), wyższe koszty                  |
 | **Testowanie**                      | PHPUnit, pluginy                                             | PHPUnit, Behat, PHPSpec                                      |
 | **Społeczność i dokumentacja**      | Ogromna, fora, Codex                                         | Oficjalna docs, SensioLabs, mniejsze community               |
 
@@ -129,6 +128,49 @@ Podsumowując, teoretyczny fundament WordPressa stanowi połączenie prostoty u�
 ### Instalacja i konfiguracja
 
 #### 1) Symfony
+a) **Wymagania wstępne**  
+- PHP ≥ 7.4 (zalecane 8.0+).  
+- Composer (menedżer zależności dla PHP).  
+- Serwer WWW (najczęściej Nginx lub Apache, choć w trakcie developmentu można korzystać z wbudowanego serwera Symfony).  
+- Opcjonalnie: Docker (w celu odizolowania środowiska) lub Symfony CLI (ułatwia uruchamianie serwera deweloperskiego i inne komendy).  
+- Baza danych (np. MySQL/MariaDB, PostgreSQL itp.).
+b) **Tworzenie nowego projektu**
+1. **Bez Dockera (lokalnie)**  
+   ```bash
+   # Jeżeli użytkownik posiada Symfony CLI:
+   symfony new nazwa_projektu --full
+   cd nazwa_projektu
+
+   # Lub przy pomocy Composera:
+   composer create-project symfony/skeleton nazwa_projektu
+   cd nazwa_projektu
+   composer require webapp         # instaluje podstawowy pakiet „full stack” (Twig, Form, Doctrine itp.)
+   ```
+c) **Konfiguracja środowiska** 
+- Symfony korzysta z pliku .env (lub .env.local na lokalne nadpisania), w którym definiujemy zmienne, np. połączenie z bazą
+   ```bash
+   # APP_ENV=dev
+   APP_SECRET=0123456789abcdef0123456789abcdef
+   DATABASE_URL="mysql://symfony_user:symfony_pass@db:3306/symfony_db?serverVersion=10.5"
+   ```
+d) **Uruchomienie środowiska deweloperskiego** 
+- Jeżeli użytkownik posiada Symfony CLI
+   ```bash
+   symfony server:start
+   ```
+-Domyślnie aplikacja będzie dostępna pod adresem https://127.0.0.1:8000 (lub http://127.0.0.1:8000)
+
+e) **Czas wdrożenia**
+- Przy założeniu, że mamy zainstalowane PHP, Composer i ewentualnie Docker:
+
+   - Klon repozytorium + instalacja zależności (composer install): 5–10 minut.
+
+   - Konfiguracja zmiennych w .env.local: 2–3 minuty.
+
+   - Pierwsze uruchomienie serwera deweloperskiego i weryfikacja działania: 2–3 minuty.
+
+- W sumie od zera do działającej aplikacji Symfony (bez zaawansowanego własnego kodu) potrzeba około 10–15 minut.
+
 
 #### 2) Wordpress
   a) wymagania wstępne:
@@ -196,7 +238,106 @@ docker-compose up -d
 
 ---
 ## Podłączenie i komunikacja z bazą danych
+#### 1) Symfony
+Symfony korzysta z Doctrine ORM (Object-Relational Mapper) do mapowania encji PHP na tabele w bazie danych. Poniżej kluczowe kroki:
+a) **Konfiguracja w ```.env``` lub ```.env.local```**
+   W zmiennej DATABASE_URL definiujemy parametry połączenia, np.:
+   
+   ```bash
+   DATABASE_URL="mysql://symfony_user:symfony_pass@127.0.0.1:3306/symfony_db?serverVersion=10.5"
+   ```
 
+   - symfony_user i symfony_pass to użytkownik i hasło w bazie.
+
+   - 127.0.0.1:3306 to adres i port bazy (w Dockerze adres usługi db dla kontenerów).
+
+   - symfony_db to nazwa bazy.
+
+   - serverVersion=10.5 (dla MariaDB 10.5, pomaga Doctrine generować optymalny SQL).
+
+2) **Tworzenie bazy danych**
+   Po skonfigurowaniu ```DATABASE_URL``` można utworzyć bazę za pomocą komendy w terminalu:
+   
+   ```bash
+   php bin/console doctrine:database:create
+   ```
+- Jeżeli baza już istnieje, zostanie zwrócony komunikat, że nie można jej stworzyć, a w logach – że już istnieje.
+
+c) **Tworzenie encji (Model)**
+- Korzystając z narzędzia MakerBundle, można wygenerować encję tak jak poniżej:
+
+```bash
+php bin/console make:entity
+
+# Przykład kroków w konsoli:
+# Class name of the entity to create or update (e.g. BraveChef):
+> Product
+
+# Now enter the fields you want to add to the Product entity (press <return> to stop adding fields):
+# New property name (press <return> to stop adding fields):
+> name
+# Field type (enter ? to see all types) [string]:
+>
+# Field length [255]:
+>
+# Can this field be null in the database (nullable) (yes/no) [no]:
+>
+
+# Kolejne pole:
+> price
+# Field type (enter ? to see all types) [string]:
+> float
+# Czy pole może być null (nullable) (yes/no) [no]:
+> no
+# Now finished:
+> 
+```
+
+c) **Migracje bazodanowe**
+Po utworzeniu modeli można wykonać migrację za pomocą poniższych komend:
+
+```bash
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+```
+- Wtedy tabela product (oraz inne wymagane) zostaną utworzone w bazie.
+
+e) **Dostęp do danych w kodzie**
+- W Symfony każda encja (Product, User itd.) ma odpowiadający jej ```Repository``` (np. ProductRepository), który dziedziczy po ```ServiceEntityRepository```.
+- Typowy kod do pobrania rekordów:
+  ```php
+  // src/Controller/ProductController.php
+   namespace App\Controller;
+
+   use App\Repository\ProductRepository;
+   use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+   use Symfony\Component\HttpFoundation\Response;
+   use Symfony\Component\Routing\Annotation\Route;
+
+   class ProductController extends AbstractController
+   {
+       #[Route('/products', name: 'product_list')]
+       public function list(ProductRepository $productRepo): Response
+       {
+           $products = $productRepo->findAll();
+           return $this->render('product/list.html.twig', [
+               'products' => $products,
+           ]);
+       }
+   }
+  ```
+- Można też pisać zapytania DQL lub korzystać z QueryBuilder:
+  ```bash
+  $qb = $productRepo->createQueryBuilder('p')
+                  ->where('p.price > :minPrice')
+                  ->setParameter('minPrice', 100)
+                  ->orderBy('p.name', 'ASC')
+  ;
+   $query = $qb->getQuery();
+   $results = $query->getResult();
+  ```
+
+#### 2) Wordpress
 Podłączenie do bazy danych w projekcie Wordpress można zrealizować na kilka sposobów.
 
 - Pierwszy sposób polega na utworzeniu projektu wordpressa i modyfikacji wygenerowanego pliku `wp-config.php`. 
@@ -253,17 +394,285 @@ Wyświetlenie poprawnych danych będzie oznaczać prawidłowe podłączenie do b
 
 ---
 ## Zarządzanie produktami
+#### 1) Symfony
+- W Symfony „zarządzanie produktami” to w praktyce ręczna implementacja CRUD (Create, Read, Update, Delete) w oparciu o encję Product, formularze, kontrolery oraz widoki. Poniżej skrócony przegląd procesu:
+  
+a) **Generowanie kontrolera i CRUD-a**
+- Przy użyciu MakerBundle można szybko wygenerować CRUD:
+
+  ```bash
+  php bin/console make:crud Product
+  ```
+
+- To utworzy ProductController, szablony Twig (templates/product/*) oraz formularz ProductType.
+   - Kod wygenerowanego kontrolera zazwyczaj zawiera akcje:
+     - ```index()``` (lista produktów),
+     - ```new()``` (dodawanie produktu),
+     - ```show()``` (podgląd produktu),
+     - ```edit()``` (edycja produktu),
+     - ```delete()``` (usunięcie produktu)
+  
+   - Plik ```src/Form/ProductType.php``` definiuje formularz oparty na polach encji. Przykład:
+
+
+   ```php
+   namespace App\Form;
+
+   use App\Entity\Product;
+   use Symfony\Component\Form\AbstractType;
+   use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+   use Symfony\Component\Form\Extension\Core\Type\TextType;
+   use Symfony\Component\Form\FormBuilderInterface;
+   use Symfony\Component\OptionsResolver\OptionsResolver;
+
+   class ProductType extends AbstractType
+   {
+       public function buildForm(FormBuilderInterface $builder, array $options): void
+       {
+           $builder
+               ->add('name', TextType::class, [
+                   'label' => 'Nazwa produktu',
+               ])
+               ->add('price', MoneyType::class, [
+                   'label' => 'Cena',
+                   'currency' => 'PLN',
+               ])
+               ->add('description', TextType::class, [
+                   'label' => 'Opis',
+                   'required' => false,
+               ])
+           ;
+       }
+
+       public function configureOptions(OptionsResolver $resolver): void
+       {
+           $resolver->setDefaults([
+               'data_class' => Product::class,
+           ]);
+       }
+   }
+   ```
+   - Widoki (Twig)
+     - Wygenerowane szablony templates/product/index.html.twig, new.html.twig, edit.html.twig, show.html.twig umożliwiają wyświetlenie formularzy i listy produktów.
+       - Przykład fragmentu z index.html.twig:
+        ```twig
+        {% extends 'base.html.twig' %}
+        
+        {% block title %}Lista produktów{% endblock %}
+        
+        {% block body %}
+            <h1>Produkty</h1>
+            <a href="{{ path('product_new') }}">Dodaj nowy produkt</a>
+        
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Cena</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price | number_format(2, ',', ' ') }} zł</td>
+                        <td>
+                            <a href="{{ path('product_show', {'id': product.id}) }}">Pokaż</a>
+                            <a href="{{ path('product_edit', {'id': product.id}) }}">Edytuj</a>
+                            <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Na pewno?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                <button type="submit">Usuń</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Brak produktów</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endblock %}
+        ```
+b) **Uwagi**
+
+- W przeciwieństwie do gotowego interfejsu WooCommerce w WordPressie, w Symfony wszystko implementuje się od podstaw lub korzysta z gotowych pakietów (np. Sylius, Symfony UX Commerce lub innych bibliotek e-commerce).
+
+- Dzięki wygenerowanemu CRUD i formularzom, podstawowe zarządzanie produktami można postawić w ciągu kilkunastu minut, ale dalsze dostosowanie do potrzeb biznesowych (warianty produktów, promocje, relacje itp.) wymaga więcej pracy programistycznej.
+
+#### 2) Wordpress
 
 ---
 ## Zarządzanie użytkownikami
+#### 1) Symfony
+W Symfony najczęściej korzysta się z **Security Bundle** wraz z narzędziem **MakerBundle** do wygenerowania encji użytkownika oraz mechanizmów uwierzytelniania. Kluczowe elementy:
+a) **Generowanie encji User**
+    ```bash
+        php bin/console make:user
+    
+        # Przykładowy dialog w konsoli:
+        # Class name of the User to create (e.g. BraveChef):
+        > User
+        # Do you want to store user data in the database (via Doctrine)? (yes/no) [yes]
+        > 
+        # Enter a property name that will be the unique "display" name for the user (e.g. email, username, uuid):
+        > email
+        # Will this app need to hash/check user passwords? (yes/no) [yes]
+        > 
+        # Your User class can implement "PasswordAuthenticatedUserInterface"!
+        # Add "use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;" to the class automatically (yes/no) [yes]
+        > 
+        # created: src/Entity/User.php
+        # created: src/Repository/UserRepository.php
+b) **Konfiguracja uwierzytelniania**
+- Po wygenerowaniu encji Symfony doda automatycznie wpis security.yaml z minimalnym ustawieniem firewalli i providerów. Przykład podstawowej konfiguracji:
+    ```yaml
+    # config/packages/security.yaml
+    security:
+        encoders:
+            App\Entity\User:
+                algorithm: auto
+    
+        providers:
+            app_user_provider:
+                entity:
+                    class: App\Entity\User
+                    property: email
+    
+        firewalls:
+            dev:
+                pattern: ^/(_(profiler|wdt)|css|images|js)/
+                security: false
+    
+            main:
+                anonymous: true
+                provider: app_user_provider
+                form_login:
+                    login_path: app_login
+                    check_path: app_login
+                logout:
+                    path: app_logout
+                    target: app_home
+    
+        access_control:
+            - { path: ^/admin, roles: ROLE_ADMIN }
+            - { path: ^/profile, roles: ROLE_USER }
+    ```
+- Trasy app_login, app_logout można wygenerować poprzez:
+
+```bash
+php bin/console make:auth
+
+# Wybieramy: 1) "Empty authenticator" lub 2) "Login form authenticator".
+```
+- Formularz logowania (LoginFormAuthenticator.php) będzie obsługiwał sprawdzanie hasła, pobieranie użytkownika z bazy itp.
+  
+c) **Rejestracja użytkownika**
+- Można wygenerować kontroler i formularz rejestracji:
+```bash
+php bin/console make:registration-form
+
+# Ten kreator stworzy:
+# - RegistrationController.php
+# - templates/registration/register.html.twig
+# - configure Security w security.yaml (firewall, provider, encoder itp.)
+```
+- Formularz rejestracji będzie zawierał co najmniej pola: e-mail, hasło (haszowane), atrybuty daty utworzenia konta, ról itp.
+  
+d) **Role i uprawnienia**
+- Domyślnie użytkownik tworzony przez kreator otrzymuje rolę ```ROLE_USER```. Można manualnie zarządzać tablicą roles w encji ```User```.
+- W ```security.yaml``` definiujemy hierarchię ról, np.:
+  
+```yaml
+role_hierarchy:
+    ROLE_ADMIN: [ROLE_USER]
+    ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+```
+- Aby zabezpieczyć konkretne akcje w kontrolerze, używamy adnotacji lub kontroli w kodzie:
+
+```php
+// Przy użyciu adnotacji (jeśli zainstalowany sensio/framework-extra-bundle):
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+#[IsGranted('ROLE_ADMIN')]
+public function adminDashboard(): Response
+{
+    // ...
+}
+```
+- Dodatkowo można tworzyć Voter („głosowisko”) – klasę, która decyduje, czy dany użytkownik może wykonać operację na określonym obiekcie (np. edytować tylko swoje zamówienie).
+  
+e) **Panel zarządzania użytkownikami**
+- W standardowej instalacji nie ma gotowego panelu users; należy albo stworzyć własny CRUD dla encji User, albo skorzystać z pakietu:
+   - EasyAdminBundle: pozwala w prosty sposób zarządzać encjami (Users, Role, itp.).
+   - SonataAdminBundle: bardziej rozbudowany, ale wymaga solidniejszej konfiguracji.
+  
+f) **Uwierzytelnianie zewnętrzne**
+- Uwierzytelnianie zewnętrzne
+   - Można też wykorzystać FOSUserBundle (Starszy, ale czasem używany) lub inne implementacje (OAuth, LDAP, JWT itp.).
+   - Do integracji z zewnętrznym serwisem autoryzacji (np. Google, Facebook) używa się HWIOAuthBundle lub Symfonycasts KnpOAuthBundle.
+#### 2) Wordpress
 
 ---
 ## Koszyk i zamówienia
+#### 1) Symfony
+#### 2) Wordpress
 
 ---
 ## Panel administratora
+#### 1) Symfony
+- W Symfony domyślnie nie ma gotowego panelu administracyjnego, dlatego najpopularniejsze podejście to:
+a) **EasyAdminBundle**
+ - Instalacja:
+ - Konfiguracja: w pliku ```config/routes/easy_admin.yaml```:
+```yaml
+easy_admin:
+    resource: '@EasyAdminBundle/Controller/EasyAdminController.php'
+    prefix: /admin
+```
+ - Konfiguracja panelu w ```config/packages/easy_admin.yaml```:
+```yaml
+easy_admin:
+site_name: 'Panel Admina'
+design:
+    menu:
+        - { label: 'Dashboard', route: 'easyadmin' }
+        - { label: 'Produkty', entity: 'Product' }
+        - { label: 'Użytkownicy', entity: 'User' }
+        - { label: 'Zamówienia', entity: 'Order' }
+entities:
+    Product:
+        class: App\Entity\Product
+        list:
+            title: 'Produkty'
+            fields:
+                - id
+                - name
+                - price
+        form:
+            fields:
+                - name
+                - description
+                - price
+    User:
+        class: App\Entity\User
+        list:
+            fields: [ id, email, roles ]
+        form:
+            fields: [ email, roles ]
+    Order:
+        class: App\Entity\Order
+        list:
+            fields: [ id, user, status, total, createdAt ]
+        show:
+            fields: [ orderItems, total, status, createdAt, user ]
+```
 
-### Kokpit  
+- Po wgraniu konfiguracji wchodzimy w przeglądarce na http://localhost:8000/admin (lub inny port), logujemy się jako użytkownik z rolą ROLE_ADMIN i mamy w pełni funkcjonalny panel do CRUD­-ów wybranych encji.
+
+#### 2) Wordpress
+### Kokpit
 ![Kokpit WordPress](doc-resources/wp-admin.png)  
 Centralny pulpit nawigacyjny prezentuje kluczowe informacje i udostępnia szybki dostęp do najczęściej używanych funkcji:  
 - **Stan witryny (Site Health)**  
@@ -425,25 +834,18 @@ Opisane możliwości panelu administracyjnego WordPress pozwalają na kompleksow
 
 ---
 ## Wydajność
-
----
-## Rozszerzalność
-
+#### 1) Symfony
+#### 2) Wordpress
 ---
 ## Szablony i wygląd (UI/UX)
-
----
-## Bezpieczeństwo
-
----
-## Cena i czas developmentu
-
+#### 1) Symfony
+#### 2) Wordpress
 ---
 ## Testowanie
-
+#### 1) Symfony
+#### 2) Wordpress
 ---
 ## Społeczność i dokumentacja
-
 Oficjalne źródła wiedzy obu platform stanowią punkt wyjścia dla programistów i administratorów, jednak różnią się pod względem struktury, przejrzystości i zakresu dostępnych rozwiązań.
 
 WordPress udostępnia kompletną dokumentację na [wordpress.org/documentation](https://wordpress.org/documentation/), w której treści podzielono na sekcje: szybkość startu (getting started), przewodniki dla developerów (developer handbooks), instrukcje użytkownika (user guides) oraz obszerne rozdziały dotyczące motywów i wtyczek. Poszczególne artykuły pisane są przystępnym, nienadmiernie technicznym językiem, co ułatwia zrozumienie osobom o różnym poziomie doświadczenia. Przy większości tematów dostępne są fragmenty kodu, zrzuty ekranu i praktyczne przykłady, co sprawia, że nawet złożone zagadnienia stają się czytelne bez konieczności sięgania po dodatkowe materiały.
