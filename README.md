@@ -118,7 +118,7 @@ Podsumowując, teoretyczny fundament WordPressa stanowi połączenie prostoty u�
 | **Zarządzanie użytkownikami**       | Wbudowane role, pluginy rozszerzające                        | Security Bundle, Role Hierarchy, voters                      |
 | **Koszyk i zamówienia**             | WooCommerce: automatyczne, API                               | Custom API, kontrolery, więcej kodu                          |
 | **Panel administratora**            | Gotowy WP-Admin, liczne wtyczki                              | EasyAdminBundle lub SonataAdmin, konfiguracja YAML/PHP       |
-| **Wydajność**                       | Caching pluginy (WP Super Cache, W3 Total Cache)             | HTTP Cache, OPcache, Varnish                                 |
+| **Dane porównawcze i metryka**      | Caching pluginy (WP Super Cache, W3 Total Cache)             | Developer mode                                               |
 | **Szablony i wygląd**               | PHP Template, Gutenberg Blocks                               | Twig, komponenty, Assetic                                    |
 | **Testowanie**                      | PHPUnit, pluginy                                             | PHPUnit, Behat, PHPSpec                                      |
 | **Społeczność i dokumentacja**      | Ogromna, fora, Codex                                         | Oficjalna docs, SensioLabs, mniejsze community               |
@@ -625,6 +625,9 @@ f) **Uwierzytelnianie zewnętrzne**
 - W Symfony domyślnie nie ma gotowego panelu administracyjnego, dlatego najpopularniejsze podejście to:
 a) **EasyAdminBundle**
  - Instalacja:
+   ```bash
+   composer require easycorp/easyadmin-bundle
+   ```
  - Konfiguracja: w pliku ```config/routes/easy_admin.yaml```:
 ```yaml
 easy_admin:
@@ -669,7 +672,8 @@ entities:
             fields: [ orderItems, total, status, createdAt, user ]
 ```
 
-- Po wgraniu konfiguracji wchodzimy w przeglądarce na http://localhost:8000/admin (lub inny port), logujemy się jako użytkownik z rolą ROLE_ADMIN i mamy w pełni funkcjonalny panel do CRUD­-ów wybranych encji.
+- Po wgraniu konfiguracji wchodzimy w przeglądarce na http://localhost:8000/admin.
+- ![Panel Admina Symfony](doc-resources/symfony-admin.png) 
 
 #### 2) Wordpress
 ### Kokpit
@@ -833,9 +837,35 @@ Zarządzanie strukturą adresów URL:
 Opisane możliwości panelu administracyjnego WordPress pozwalają na kompleksowe zarządzanie każdą stroną — od treści i mediów, przez wygląd i funkcje, aż po zaawansowane opcje wydajności i bezpieczeństwa.
 
 ---
-## Wydajność
-#### 1) Symfony
-#### 2) Wordpress
+## Dane porównawcze i metryka
+**1. Liczba plików**
+
+**2. Ilość zależności**
+
+**3. Rozmiar projektu na dysku**
+
+**4. Zużycie pamięci RAM**
+
+**5. Czasy ładowania widoków, rozmiar wygenerowanej strony (payload)**
+
+a) **Dashboard**
+
+b) **Kolekcja butów**
+
+c) **Podgląd danego produktu**
+
+d) **Koszyk**
+
+**6. Czas zapytania do bazy i liczba zapytań SQL**
+
+a) **Dashboard**
+
+b) **Kolekcja butów**
+
+c) **Podgląd danego produktu**
+
+d) **Koszyk**
+
 ---
 ## Szablony i wygląd (UI/UX)
 #### 1) Symfony
