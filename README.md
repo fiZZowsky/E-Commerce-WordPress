@@ -505,17 +505,17 @@ b) **Uwagi**
 Zarządzanie produktami w sklepie zostało oparte na wtyczce `WooCommerce`, która automatyzuje cały proces — od dodawania i edycji asortymentu, przez kontrolę stanów magazynowych, aż po obsługę zamówień. 
 Po pobraniu wtyczki i jej włączeniu na pasku bocznym pojawiła się zakładka `Produkty`.
 
-- ![Zakładki panelu admina po dodaniu WooCommerce](doc-resources/Zakladki-Produkty.png)
+![Zakładki panelu admina po dodaniu WooCommerce](doc-resources/Zakladki-Produkty.png)
 
 Po wejściu w zakładkę wyświetlają się grid zawierający dodane produkty i przyciski pozwalające na wykonanie na nich działań.
 
-- ![Zawartość zakładki produkty](doc-resources/Produkty.png)
+![Zawartość zakładki produkty](doc-resources/Produkty.png)
 
 Utworzenie produktu jest dokonywane na stronie wyświetlonej po kliknięciu przycisku `Dodaj produkt`. 
 Po jej otwarciu wyświetla się pełno opcji umożliwiających tworzenie zarówno prostych jak i rozbudowanych produktów posiadających różne warianty.
 Dla każdego produktu ustawiona zostaje nazwa, opis i zdjęcie produktu. Można dodaźć również całą galerię zdjęć dla pokazania jego szczegółów.
 
-- ![Dodawanie produktu - dane podstawowe](doc-resources/Dodaj-Produkt-cz1.png)
+![Dodawanie produktu - dane podstawowe](doc-resources/Dodaj-Produkt-cz1.png)
 
 Druga część to dane produktu. Tu wybiera się typ produktu:
 - produkt prosty
@@ -525,15 +525,15 @@ Druga część to dane produktu. Tu wybiera się typ produktu:
 
 Na jego podstawie wyświetlane są odpowiednie opcje konfiguracyjne. Najczęstszym wyborem jest tu produkt z wariantami. 
 
-- ![Dodawanie produktu - dane produktu - z wariantami](doc-resources/Dodaj-Produkt-cz2.png)
+![Dodawanie produktu - dane produktu - z wariantami](doc-resources/Dodaj-Produkt-cz2.png)
 
 Posiada on opcje do tworzenia różnych wersji tego samego produktu poprzez dodawanie atrybutów. Atrybuty te są używane potem w kolejnej zakładce `Warianty`. Służą one do wygenerowania wszystkich możliwych kombinacji produktu bądź takich jakie zażyczy sobie użytkownik. Konfiguruje się tu również takie opcje jak wysyłka czy powiązane produkty.
 
-- ![Dodawanie produktu - dane produktu - tworzenie wariantów](doc-resources/Dodaj-Produkt-cz4.png)
+![Dodawanie produktu - dane produktu - tworzenie wariantów](doc-resources/Dodaj-Produkt-cz4.png)
 
 Prosty produkt ma zakładkę `Ogólne` pozwalającą na ustawienie ceny oraz opcjonalnie ceny promocyjnej. 
 
-- ![Dodawanie produktu - dane produktu - prosty](doc-resources/Dodaj-Produkt-cz3.png)
+![Dodawanie produktu - dane produktu - prosty](doc-resources/Dodaj-Produkt-cz3.png)
 
 > [!NOTE]
 > W przypadku produktów z wariantami ceny również się ustawia, ale po wygenerowaniu wariantów. Można ustawić dla wszystkich tą samą ceną, bądź różne dla wszystkich.
@@ -652,6 +652,39 @@ f) **Uwierzytelnianie zewnętrzne**
    - Można też wykorzystać FOSUserBundle (Starszy, ale czasem używany) lub inne implementacje (OAuth, LDAP, JWT itp.).
    - Do integracji z zewnętrznym serwisem autoryzacji (np. Google, Facebook) używa się HWIOAuthBundle lub Symfonycasts KnpOAuthBundle.
 #### 2) Wordpress
+
+Zarządzanie użytkownikami w WordPressie opiera się na prostym, ale elastycznym modelu ról i uprawnień. Wszystkie podstawowe operacje na użytkownikach można wykonać w kokpicie. Nie są potrzebne do tego żadne wtyczki.
+Opcje do zarządzania użytkownikami znajdują się w zakładce `Użytkownicy` po lewej stronie na pasku nawigacyjnym.
+
+![Otwarta zakładka zarządzania użytkownikami](doc-resources/Uzytkownicy.png)
+
+Z tego miejsca można:
+- przeglądać listę kont – z podziałem na role i liczbę opublikowanych treści;
+- filtrować i wyszukiwać nazwiska, e‑maile lub role, co ułatwia szybkie odszukanie właściwej osoby;
+- wykonywać akcje zbiorcze (np. przypisanie nowej roli lub usunięcie konta kilku osobom naraz);
+- resetować hasła i wysyłać linki „Ustaw nowe hasło” w przypadku zagubienia danych logowania;
+- włączać/wyłączać dwustopniowe logowanie, jeśli korzystasz z wtyczek do 2FA lub passkeys.
+
+Podsekcja `Utwórz użytkownika` pozwala ręcznie zarejestrować świeże konto (wraz z automatycznym e‑mailem powitalnym) albo wysłać zaproszenie, dzięki któremu użytkownik sam ustawi hasło. Z kolei każdy zalogowany widzi w menu pozycję Profil – tu zmieni swoje dane wyświetlane publicznie, podpis awatar z Gravatara, język kokpitu czy klucze aplikacji do REST API.
+
+![Strona tworzenia użytkownika](doc-resources/Utworz-uzytkownika.png)
+
+Jak WordPress zarządza uprawnieniami?
+Sercem systemu jest model ról i uprawnień (Roles & Capabilities). Domyślne role – od Subskrybenta aż po Administratora – mają przypisane konkretne „zdolności” (capabilities), takie jak edit_posts czy install_plugins. Dzięki temu WordPress może precyzyjnie określić, kto widzi daną opcję w kokpicie i jakie operacje wolno mu wykonać. Jeśli prowadzisz instalację wielosieciową (Multisite), nad wszystkimi witrynami stoi jeszcze rola Super Admin.
+
+Co, jeśli potrzebujesz czegoś więcej?
+Choć wbudowane narzędzia wystarczą do prostych stron firmowych czy blogów, rozbudowane projekty szybko wymagają dodatkowych możliwości. Najpopularniejsze klasy rozszerzeń to:
+
+| Typ wtyczki | Do czego służy? | Przykładowe funkcje |
+|-------------|-----------------|---------------------|
+| **Edytory ról** | Tworzenie nowych ról lub modyfikacja istniejących bez dotykania kodu. | Graficzne zaznaczanie/odznaczanie capabilities; klonowanie ról; masowe przypisywanie do kont. *User Role Editor, Members* |
+| **Profile & rejestracja front‑end** | Zamiana domyślnego, „szarego” formularza WP na własny, dostosowany do motywu. | Kreatory pól profilu, avatary, pola „zgoda RODO”, reCAPTCHA; wieloetapowa rejestracja. *WP User Manager, Profile Press* |
+| **Systemy członkostw (membership)** | Sprzedaż subskrypcji, kursów, treści „tylko dla zalogowanych”. | Płatne lub darmowe poziomy dostępu, automatyczne nadawanie/odbieranie ról, integracja z płatnościami. *MemberPress, Paid Memberships Pro* |
+| **Sklepy e‑commerce** | WooCommerce dodaje role *Customer* i *Shop Manager*, a zarządzanie kontami klientów odbywa się w osobnym panelu zamówień. | Historia zakupów, reset haseł na maila, import/eksport klientów, segmentacja odbiorców. |
+| **Bezpieczeństwo i 2FA** | Hartowanie logowania i monitorowanie aktywności. | Authenticator, passkeys/WebAuthn, blokady IP, dziennik „kto, co i kiedy” w kokpicie. *Wordfence Login Security, WP 2FA, Simple History* |
+| **Social / SSO / LDAP** | Logowanie jednym kliknięciem przez Google, Facebooka lub serwer firmowy. | Mapowanie pól profilu, automatyczne zakładanie kont, wymuszanie domeny e‑mail. *Nextend Social Login, miniOrange LDAP* |
+
+Dzięki hookom i REST API wtyczki mogą też uruchamiać akcje przy każdym utworzeniu lub zmianie konta – na przykład dodać nowego użytkownika do listy mailingowej lub wysłać powiadomienie na Slacka. Narzędzia deweloperskie (WP‑CLI, GraphQL) pozwalają natomiast masowo importować tysiące kont czy modyfikować role poleceniem w terminalu.
 
 ---
 ## Koszyk i zamówienia
