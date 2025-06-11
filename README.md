@@ -502,6 +502,45 @@ b) **Uwagi**
 - Dzięki wygenerowanemu CRUD i formularzom, podstawowe zarządzanie produktami można postawić w ciągu kilkunastu minut, ale dalsze dostosowanie do potrzeb biznesowych (warianty produktów, promocje, relacje itp.) wymaga więcej pracy programistycznej.
 
 #### 2) Wordpress
+Zarządzanie produktami w sklepie zostało oparte na wtyczce `WooCommerce`, która automatyzuje cały proces — od dodawania i edycji asortymentu, przez kontrolę stanów magazynowych, aż po obsługę zamówień. 
+Po pobraniu wtyczki i jej włączeniu na pasku bocznym pojawiła się zakładka `Produkty`.
+
+- ![Zakładki panelu admina po dodaniu WooCommerce](doc-resources/Zakladki-Produkty.png)
+
+Po wejściu w zakładkę wyświetlają się grid zawierający dodane produkty i przyciski pozwalające na wykonanie na nich działań.
+
+- ![Zawartość zakładki produkty](doc-resources/Produkty.png)
+
+Utworzenie produktu jest dokonywane na stronie wyświetlonej po kliknięciu przycisku `Dodaj produkt`. 
+Po jej otwarciu wyświetla się pełno opcji umożliwiających tworzenie zarówno prostych jak i rozbudowanych produktów posiadających różne warianty.
+Dla każdego produktu ustawiona zostaje nazwa, opis i zdjęcie produktu. Można dodaźć również całą galerię zdjęć dla pokazania jego szczegółów.
+
+- ![Dodawanie produktu - dane podstawowe](doc-resources/Dodaj-Produkt-cz1.png)
+
+Druga część to dane produktu. Tu wybiera się typ produktu:
+- produkt prosty
+- produkt grupowy
+- produkt zewnętrzny/afiliacyjny
+- produkt z wariantami.
+
+Na jego podstawie wyświetlane są odpowiednie opcje konfiguracyjne. Najczęstszym wyborem jest tu produkt z wariantami. 
+
+- ![Dodawanie produktu - dane produktu - z wariantami](doc-resources/Dodaj-Produkt-cz2.png)
+
+Posiada on opcje do tworzenia różnych wersji tego samego produktu poprzez dodawanie atrybutów. Atrybuty te są używane potem w kolejnej zakładce `Warianty`. Służą one do wygenerowania wszystkich możliwych kombinacji produktu bądź takich jakie zażyczy sobie użytkownik. Konfiguruje się tu również takie opcje jak wysyłka czy powiązane produkty.
+
+- ![Dodawanie produktu - dane produktu - tworzenie wariantów](doc-resources/Dodaj-Produkt-cz4.png)
+
+Prosty produkt ma zakładkę `Ogólne` pozwalającą na ustawienie ceny oraz opcjonalnie ceny promocyjnej. 
+
+- ![Dodawanie produktu - dane produktu - prosty](doc-resources/Dodaj-Produkt-cz3.png)
+
+> [!NOTE]
+> W przypadku produktów z wariantami ceny również się ustawia, ale po wygenerowaniu wariantów. Można ustawić dla wszystkich tą samą ceną, bądź różne dla wszystkich.
+
+Opisane możliwości to jedynie część z nich jakie umożliwia wtyczka `WooCommerce`.
+Po wypełnieniu wszystkich opcji jakie ma spełniać produkt i opublikowaniu go zostaje on dodany do grida w zakładce `Produkty`. 
+Opublikowane produkty są już wyświetlane na stronie sklepu. Dzieje się to automatycznie dzięki wtyczce `WooCommerce`, która dostarcza oprócz samego zarządzania produktami inne funkcjonalności związane z zarządzaniem oraz tworzeniem sklepu.
 
 ---
 ## Zarządzanie użytkownikami
