@@ -1402,6 +1402,48 @@ d) **Koszyk**
      
 
 #### 2) Wordpress
+
+WordPress pozwala układać front‑end witryny na kilku równoległych poziomach. Najstarszą i wciąż w pełni wspieraną warstwą jest klasyczna hierarchia plików PHP.  
+Każdy widok – od strony głównej po ekran pojedynczego wpisu – ma przypisany plik w motywie, np. `single.php` lub `page-about.php`.  
+Zaawansowane projekty nadal sięgają po ten model, bo daje on stuprocentową kontrolę nad kodem, backendowymi zapytaniami i wydajnością.  
+Wprowadzenie motywów‑dzieci umożliwia bezpieczne nadpisywanie pojedynczych plików, a jednocześnie zachowanie aktualizacji motywu nadrzędnego.
+
+Od wersji 5.9 – i wyraźnie dojrzałej w 6.8 – WordPress oferuje drugą,
+wyłącznie blokową warstwę, czyli **pełną edycję witryny (FSE)**.
+Zamiast PHP‑a wykorzystuje pliki `*.html` wypełnione blokami Gutenberga.
+Tę samą stronę, nagłówek albo stopkę buduje się wizualnie, niemal jak w Figma:
+przeciąga się bloki, ustawia odstępy i zapisuje wynik jako template.
+Site Editor przechowuje te pliki w katalogach `templates/` oraz `parts/`,
+a dopełnieniem są **Patterns** – gotowe sekcje, które można wstawić jednym
+kliknięciem i następnie zsynchronizować między podstronami.
+
+![Strona szablonów](doc-resources/Szablony.png)
+
+Między tymi dwiema warstwami działają **kreatory stron** pokroju Elementora.
+Ich własne biblioteki przyjmują formę „szablonów stron” czy „sekcji” i są
+zapisywane w bazie danych, skąd można je eksportować do pliku `.json`.
+Elementor pozwala na import całych paczek (Template Kitów), a jego nowy
+silnik Flexbox wprowadza kontenery zastępujące sekcje i kolumny.
+
+Sklepy WooCommerce korzystają z dodatkowego mechanizmu nadpisywania widoków.
+Dowolny plik znajdujący się w `woocommerce/templates/` można przenieść do
+`your-theme/woocommerce/` i zmodyfikować bez dotykania wtyczki.  
+Motywy blokowe mają też własne, wizualne szablony koszyka i kasy, więc
+obydwa światy – PHP i bloki – mogą współistnieć w tym samym projekcie.
+
+> **Szybka ściąga – kiedy sięgnąć po daną warstwę**
+> * statyczna, lekka sekcja pojawiająca się w kilkunastu miejscach → Synced Pattern  
+> * landing na jednodniową kampanię marketingową → strona w Elementorze  
+> * filtracja WP_Query, custom post types, wielojęzyczność → plik PHP w motywie‑dziecku  
+> * globalny nagłówek / stopka edytowane przez redaktora → Template Part w FSE  
+
+Praktyczne workflow często łączy wszystkie opcje.
+Najpierw stawia się motyw‑dziecko, które zabezpiecza bazowe pliki PHP.
+Następnie Site Editor buduje nagłówek i stopkę bez linijki kodu.
+Sekcje marketingowe zapisuje się jako Patterns, aby marketing mógł je
+wklejać na nowych stronach. Na koniec Elementor wchodzi do gry przy
+tworzeniu dopracowanych wizualnie landingów, które muszą powstać „na już”.
+
 ---
 ## Społeczność i dokumentacja
 Oficjalne źródła wiedzy obu platform stanowią punkt wyjścia dla programistów i administratorów, jednak różnią się pod względem struktury, przejrzystości i zakresu dostępnych rozwiązań.
