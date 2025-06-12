@@ -120,7 +120,6 @@ Podsumowując, teoretyczny fundament WordPressa stanowi połączenie prostoty u�
 | **Panel administratora**            | Gotowy WP-Admin, liczne wtyczki                              | EasyAdminBundle lub SonataAdmin, konfiguracja YAML/PHP       |
 | **Dane porównawcze i metryka**      | Caching pluginy (WP Super Cache, W3 Total Cache)             | Developer mode                                               |
 | **Szablony i wygląd**               | PHP Template, Gutenberg Blocks                               | Twig, komponenty, Assetic                                    |
-| **Testowanie**                      | PHPUnit, pluginy                                             | PHPUnit, Behat, PHPSpec                                      |
 | **Społeczność i dokumentacja**      | Ogromna, fora, Codex                                         | Oficjalna docs, SensioLabs, mniejsze community               |
 
 ---
@@ -689,7 +688,14 @@ Dzięki hookom i REST API wtyczki mogą też uruchamiać akcje przy każdym 
 ---
 ## Koszyk i zamówienia
 #### 1) Symfony
+- Ten widok pełni rolę interaktywnego koszyka zakupowego w aplikacji SymfonyShop. Użytkownik widzi tutaj listę produktów, które dodał do koszyka – każda pozycja składa się ze zdjęcia, nazwy (linkowanej do strony szczegółów produktu) oraz ceny. Dzięki przyciskowi „Delete” można od razu usunąć niechciane pozycje, a na dole wyświetlana jest automatycznie wyliczana suma całego zamówienia. Całość działa w oparciu o dane przechowywane w localStorage przeglądarki: skrypt JavaScript odczytuje je przy ładowaniu strony, generuje dynamicznie wiersze tabeli i pozwala na bieżąco aktualizować zarówno zawartość, jak i łączną kwotę koszyka.
+
+![Koszyk Symfony](doc-resources/symfony-cart.png) 
+  
 #### 2) Wordpress
+Strona koszyka reaguje na każdą zmianę: po zwiększeniu, zmniejszeniu lub usunięciu produktu albo po wpisaniu kodu rabatowego natychmiast wyświetlany jest komunikat potwierdzający aktualizację. Licznik przy każdym towarze umożliwia płynne korygowanie ilości, a przycisk „Zaktualizuj koszyk” automatycznie aktywuje się wyłącznie wtedy, gdy faktycznie wprowadzono zmiany. Równocześnie panel podsumowania po prawej stronie na bieżąco przelicza kwotę częściową i łączną, co zapewnia stałą widoczność aktualnych kosztów zamówienia. Po zakończeniu edycji zamówienia wyróżniony przycisk u dołu panelu przekierowuje bezpośrednio do kasy w celu sfinalizowania transakcji.
+
+![Koszyk Wordpress](doc-resources/Koszyk.png)
 
 ---
 ## Panel administratora
@@ -941,11 +947,503 @@ d) **Koszyk**
 ---
 ## Szablony i wygląd (UI/UX)
 #### 1) Symfony
+- W Symfony możesz korzystać z silnika szablonów Twig, ponieważ jest to domyślny, lekki i wydajny sposób na oddzielenie warstwy prezentacji od logiki aplikacji – Twig kompiluje szablony do czystego PHP, wspiera dziedziczenie bloków i łatwo integruje się z systemem routingu i helperów Symfony.
+
+- Czym jest Twig?
+   - Twig to domyślny silnik szablonów w Symfony. Pozwala oddzielić logikę PHP od prezentacji HTML-owej: w szablonach używamy lekkiej składni ({{ }} do wyrenderowania zmiennych, {% %} do instrukcji, pętli czy dziedziczenia). Ma szybki kompilator – przy pierwszym       wywołaniu Twój .twig jest przetwarzany do czystego PHP i cache’owany.
+   - Struktura plików w projekcie dla szablonów Twig
+     
+    ![Symfony Twig Templates](doc-resources/symfony-templates.png)
+  - Przykład bazowego szablonu ```base.html.twig```
+    
+    ```twig
+    {# templates/base.html.twig #}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Symfony Shop{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+            <style>
+                html, body {
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    flex-direction: column;
+                }
+                body > main {
+                    flex: 1;
+                }
+                footer {
+                    background-color: #0E3F35;
+                    color: #fff;
+                    padding: 20px 0;
+                }
+                .header-container {
+                    background-color: #023430;
+                    width: 100%;
+                    height: 40%;
+                }
+            
+                .bar-container {
+                    margin-top: 15px;
+                    background-color: #e3e3e3;
+                    padding: 16px 20px 16px 20px;
+                    border-radius: 25px;
+                }
+                .bar-container-text {
+                    color: black;
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+                /* ------------------------ NAVBAR ------------------------ */
+                .custom-navbar {
+                    background-color: #023430;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 1rem 2rem;
+                }
+                .custom-navbar .logo {
+                    color: #fff;
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    text-decoration: none;
+                }
+                .custom-navbar .logo:hover {
+                    transform: scale(1.02);
+                }
+                .custom-navbar ul {
+                    list-style: none;
+                    display: flex;
+                    gap: 2rem;
+                }
+                .custom-navbar li {
+                    display: inline-block;
+                }
+                .custom-navbar a {
+                    color: #000000;
+                    text-decoration: none;
+                    font-weight: 500;
+                }
+                .custom-navbar a:hover {
+                    color: #878787;
+                    text-decoration: underline;
+                }
+                .bar-container-text i {
+                    font-size: 24px;
+                }
+                .bar-container-icons {
+                    margin-top: 10px;
+                    background-color: #e3e3e3;
+                    padding: 8px 16px 8px 16px;
+                    border-radius: 25px;
+                    margin-right: 30px
+                }
+            </style>
+            <script>
+                function showSnackbar(message, error = false) {
+                    const snackbar = document.getElementById("snackbar");
+                    if (error) {
+                        snackbar.style.backgroundColor = "#f44336"; // Czerwony kolor dla błędów
+                    } else {
+                        snackbar.style.backgroundColor = "#3edc24";
+                    }
+                    snackbar.textContent = message;
+                    snackbar.style.visibility = "visible";
+                    snackbar.style.opacity = "1";
+                    snackbar.style.bottom = "50px";
+                    setTimeout(function() {
+                        snackbar.style.opacity = "0";
+                        snackbar.style.bottom = "30px";
+                        setTimeout(function() {
+                            snackbar.style.visibility = "hidden";
+                        }, 500);
+                    }, 3000);
+                }
+            </script>
+    
+        {% endblock %}
+    </head>
+    <body>
+    {% block header %}
+        <header>
+            <div class="header-container">
+                <nav class="custom-navbar">
+                    <a href="/home" class="logo"><img width="14%" style="margin-right: 10px; margin-bottom: 5px;" src="{{ asset('images/SymfonyIcon.png') }}" alt="HomePageTopImage">SymfonyShop</a>
+                    <ul class="bar-container">
+                        <li class="bar-container-text">
+                            <a href="/home">Home</a>
+                        </li>
+                        <li class="bar-container-text">
+                            <a href="/products">Shoes Collection</a>
+                        </li>
+                        <li class="bar-container-text">
+                            <a href="/about">About</a>
+                        </li>
+                    </ul>
+                    <ul class="bar-container-icons">
+                        <li class="bar-container-text">
+                            <a href="/products"><i class="mdi mdi-magnify"></i></a>
+                        </li>
+                        <li class="bar-container-text">
+                            <a href="/products"><i class="mdi mdi-heart-outline"></i></a>
+                        </li>
+                        <li class="bar-container-text">
+                            <a href="/cart"><i class="mdi mdi-cart-outline" id="cart-icon"></i><span id="cart-count" style="background-color: red; color: white; border-radius: 50%; padding: 2px 8px; font-size: 0.8rem; position: relative; top: -10px; left: -5px;">0</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    {% endblock %}
+    <main>
+        {% block body %}
+        {% endblock %}
+    </main>
+    <footer class="mt-5">
+        <div class="text-center">
+            <p class="mb-0">© 2025 Symfony Shop - All rights reserved.</p>
+        </div>
+    </footer>
+    <div id="snackbar" style="
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -200px;
+        color: #fff;
+        text-align: center;
+        border-radius: 20px;
+        padding: 16px;
+        position: fixed;
+        z-index: 9999;
+        left: 50%;
+        bottom: 30px;
+        font-size: 1rem;
+        opacity: 0;
+        transition: opacity 0.5s, bottom 0.5s;
+    ">
+    </div>
+    
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% endblock %}
+    </body>
+    </html>
+    ```
+   - Przykład szablonu dziedziczącego ```product/show.html.twig```
+     
+  ```twig
+    {% extends 'base.html.twig' %}
+
+    {% block title %}
+    {{ product.brand }} {{ product.model }}
+    {% endblock %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        <style>
+            .product-show-section {
+                max-width: 80%;
+                height: 100%;
+                margin: 0 auto;
+                padding: 3rem 2rem;
+            }
+
+            .product-details-wrapper {
+                display: flex;
+                gap: 3rem;
+                align-items: flex-start;
+                background-color: #f9f9f9;
+                padding: 2rem;
+                border-radius: 15px;
+            }
+
+            .product-image {
+                flex: 1;
+            }
+
+            .product-image img {
+                width: 100%;
+                border-radius: 15px;
+                transition: transform 0.3s ease;
+            }
+
+            .product-image img:hover {
+                transform: scale(1.03);
+            }
+
+            .product-info {
+                flex: 1.5;
+            }
+
+            .product-info h2 {
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 0.75rem;
+            }
+
+            .product-info .price {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #023430;
+                margin: 1rem 0;
+            }
+
+            .product-info .rating {
+                color: #FFB400;
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+
+            .product-info .description {
+                margin: 1.5rem 0;
+                line-height: 1.6;
+            }
+
+            .product-colors, .product-sizes {
+                display: flex;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .product-color, .product-size {
+                width: 25px;
+                height: 25px;
+                border-radius: 3px;
+                border: 1px solid #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.8rem;
+                font-weight: bold;
+                padding: 0.5rem;
+            }
+
+
+            .add-to-cart-btn {
+                background-color: #f1f1f1;
+                color: black;
+                border: 2px solid black;
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+                border-radius: 55px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.25s ease;
+            }
+
+            .add-to-cart-btn:hover {
+                background-color: #dcdcdc;
+                transform: scale(1.05);
+            }
+        </style>
+    {% endblock %}
+      {% block body %}
+        <section class="product-show-section" style="margin-bottom: 10%">
+            <div class="product-details-wrapper">
+                <div class="product-image">
+                    <img src="{{ asset(product.imageUrl ?: 'images/defaultImage.png') }}" alt="{{ product.brand }} {{ product.model }}">
+                </div>
+                <div class="product-info">
+                    <h2>{{ product.brand }} {{ product.model }}</h2>
+                    <div class="rating">
+                        <i class="mdi mdi-star"></i> {{ product.rating }}
+                    </div>
+                    <div class="price">${{ product.price }}</div>
+                    <div class="description">{{ product.description ?: 'Brak opisu dla tego produktu.' }}</div>
+
+                    {% if product.colors %}
+                        <div>
+                            <strong>Kolory:</strong>
+                            <div class="product-colors">
+                                {% for color in product.colors %}
+                                    <div class="product-color" style="background-color: {{ color }}">&nbsp;</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if product.sizes %}
+                        <div>
+                            <strong>Rozmiary:</strong>
+                            <div class="product-sizes">
+                                {% for size in product.sizes %}
+                                    <div class="product-size">{{ size }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <button class="add-to-cart-btn"
+                            data-product-id="{{ product.id }}"
+                            data-product-name="{{ product.brand }} {{ product.model }}"
+                            data-product-price="{{ product.price }}">
+                        Dodaj do koszyka
+                    </button>
+                </div>
+            </div>
+        </section>
+    {% endblock %}
+      {% block javascripts %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const cartCount = document.getElementById('cart-count');
+                const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+                function getCart() {
+                    const cart = localStorage.getItem('cart');
+                    return cart ? JSON.parse(cart) : [];
+                }
+
+                function saveCart(cart) {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                }
+
+                function updateCartCount() {
+                    const cart = getCart();
+                    cartCount.textContent = cart.length;
+                }
+
+                addToCartButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const productId = this.dataset.productId;
+                        const productName = this.dataset.productName;
+                        const productPrice = this.dataset.productPrice;
+
+                        let cart = getCart();
+
+                        if (cart.some(item => item.id === productId)) {
+                            showSnackbar('Product already in cart!', true);
+                            return;
+                        }
+                        cart.push({
+                            id: productId,
+                            name: productName,
+                            price: productPrice
+                        });
+                        saveCart(cart);
+                        updateCartCount();
+                        showSnackbar(`Product ${productName} was added to cart!`);
+                    });
+                });
+
+                updateCartCount();
+            });
+        </script>
+    {% endblock %}
+  ```
+  - Mając już widoki, należy utworzyć routingi oraz kontolery dla danych widoków, przykład użycia ```CartController.php```
+    
+      ```php
+    <?php
+    
+    namespace App\Controller;
+    
+    use App\Entity\Product;
+    use Doctrine\ORM\EntityManagerInterface;
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\JsonResponse;
+    use Symfony\Component\Routing\Annotation\Route;
+    
+    class CartController extends AbstractController
+    {
+        #[Route('/cart', name: 'app_cart_show')]
+        public function show(): Response
+        {
+            return $this->render('cart/show.html.twig', [
+            ]);
+        }
+    
+        #[Route('/cart/save', name: 'app_cart_save', methods: ['POST'])]
+        public function save(Request $request, EntityManagerInterface $entityManager)
+        {
+            $data = json_decode($request->getContent(), true);
+            $cart = $data['cart'] ?? [];
+        
+            $request->getSession()->set('cart', $cart);
+        
+            $idProducts = array_column($cart, 'id');
+            $cartProducts = array();
+            if (!empty($idProducts)) {
+            $qb = $entityManager->createQueryBuilder();
+                $qb->select('p.id, p.brand, p.model, p.price, p.description, p.imageUrl, p.colors, p.sizes')   
+                    ->from(Product::class, 'p')
+                    ->where($qb->expr()->in('p.id', $idProducts))
+                ; 
+                $query = $qb->getQuery();
+                $cartProducts = $query->getResult();
+            }
+        
+            return new Response(
+                json_encode($cartProducts),
+                200,
+                array('content-type' => 'application/json')
+            );
+        }
+    }
+    ```
+  - Jak to działa „od środka” dla np. podglądu koszyka?
+      - Przeglądarka GET-em prosi /cart.
+
+      - Symfony dopasowuje trasę app_cart_show i wywołuje show().
+
+      - Metoda render():
+
+      - Ładuje templates/cart/show.html.twig, widzi {% extends 'base.html.twig' %},
+
+      - Kompiluje wspólnie z base.html.twig, wstrzykuje odpowiednie bloki.
+
+      - Wynik HTML wraca do przeglądarki.
+     
+
 #### 2) Wordpress
----
-## Testowanie
-#### 1) Symfony
-#### 2) Wordpress
+
+WordPress pozwala układać front‑end witryny na kilku równoległych poziomach. Najstarszą i wciąż w pełni wspieraną warstwą jest klasyczna hierarchia plików PHP.  
+Każdy widok – od strony głównej po ekran pojedynczego wpisu – ma przypisany plik w motywie, np. `single.php` lub `page-about.php`.  
+Zaawansowane projekty nadal sięgają po ten model, bo daje on stuprocentową kontrolę nad kodem, backendowymi zapytaniami i wydajnością.  
+Wprowadzenie motywów‑dzieci umożliwia bezpieczne nadpisywanie pojedynczych plików, a jednocześnie zachowanie aktualizacji motywu nadrzędnego.
+
+Od wersji 5.9 – i wyraźnie dojrzałej w 6.8 – WordPress oferuje drugą,
+wyłącznie blokową warstwę, czyli **pełną edycję witryny (FSE)**.
+Zamiast PHP‑a wykorzystuje pliki `*.html` wypełnione blokami Gutenberga.
+Tę samą stronę, nagłówek albo stopkę buduje się wizualnie, niemal jak w Figma:
+przeciąga się bloki, ustawia odstępy i zapisuje wynik jako template.
+Site Editor przechowuje te pliki w katalogach `templates/` oraz `parts/`,
+a dopełnieniem są **Patterns** – gotowe sekcje, które można wstawić jednym
+kliknięciem i następnie zsynchronizować między podstronami.
+
+![Strona szablonów](doc-resources/Szablony.png)
+
+Między tymi dwiema warstwami działają **kreatory stron** pokroju Elementora.
+Ich własne biblioteki przyjmują formę „szablonów stron” czy „sekcji” i są
+zapisywane w bazie danych, skąd można je eksportować do pliku `.json`.
+Elementor pozwala na import całych paczek (Template Kitów), a jego nowy
+silnik Flexbox wprowadza kontenery zastępujące sekcje i kolumny.
+
+Sklepy WooCommerce korzystają z dodatkowego mechanizmu nadpisywania widoków.
+Dowolny plik znajdujący się w `woocommerce/templates/` można przenieść do
+`your-theme/woocommerce/` i zmodyfikować bez dotykania wtyczki.  
+Motywy blokowe mają też własne, wizualne szablony koszyka i kasy, więc
+obydwa światy – PHP i bloki – mogą współistnieć w tym samym projekcie.
+
+> **Szybka ściąga – kiedy sięgnąć po daną warstwę**
+> * statyczna, lekka sekcja pojawiająca się w kilkunastu miejscach → Synced Pattern  
+> * landing na jednodniową kampanię marketingową → strona w Elementorze  
+> * filtracja WP_Query, custom post types, wielojęzyczność → plik PHP w motywie‑dziecku  
+> * globalny nagłówek / stopka edytowane przez redaktora → Template Part w FSE  
+
+Praktyczne workflow często łączy wszystkie opcje.
+Najpierw stawia się motyw‑dziecko, które zabezpiecza bazowe pliki PHP.
+Następnie Site Editor buduje nagłówek i stopkę bez linijki kodu.
+Sekcje marketingowe zapisuje się jako Patterns, aby marketing mógł je
+wklejać na nowych stronach. Na koniec Elementor wchodzi do gry przy
+tworzeniu dopracowanych wizualnie landingów, które muszą powstać „na już”.
+
 ---
 ## Społeczność i dokumentacja
 Oficjalne źródła wiedzy obu platform stanowią punkt wyjścia dla programistów i administratorów, jednak różnią się pod względem struktury, przejrzystości i zakresu dostępnych rozwiązań.
