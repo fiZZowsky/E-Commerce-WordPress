@@ -693,6 +693,9 @@ Dzięki hookom i REST API wtyczki mogą też uruchamiać akcje przy każdym 
 ![Koszyk Symfony](doc-resources/symfony-cart.png) 
   
 #### 2) Wordpress
+Strona koszyka reaguje na każdą zmianę: po zwiększeniu, zmniejszeniu lub usunięciu produktu albo po wpisaniu kodu rabatowego natychmiast wyświetlany jest komunikat potwierdzający aktualizację. Licznik przy każdym towarze umożliwia płynne korygowanie ilości, a przycisk „Zaktualizuj koszyk” automatycznie aktywuje się wyłącznie wtedy, gdy faktycznie wprowadzono zmiany. Równocześnie panel podsumowania po prawej stronie na bieżąco przelicza kwotę częściową i łączną, co zapewnia stałą widoczność aktualnych kosztów zamówienia. Po zakończeniu edycji zamówienia wyróżniony przycisk u dołu panelu przekierowuje bezpośrednio do kasy w celu sfinalizowania transakcji.
+
+![Koszyk Wordpress](doc-resources/Koszyk.png)
 
 ---
 ## Panel administratora
