@@ -1492,7 +1492,7 @@ W panelach administracyjnych różnica jest równie wyraźna. WP‑Admin stanowi
 
 Społeczność WordPressa jest szeroka – tysiące motywów, wtyczek, tutoriali oraz for w wielu językach ułatwiają pozyskiwanie gotowych rozwiązań. Społeczność Symfony jest mniejsza, lecz silnie ukierunkowana na najlepsze praktyki programistyczne; dokumentacja modułowa wymaga większego nakładu pracy przy adaptacji.
 
-<ins>**Wnioski**</ins>
+**Wnioski**
 **Wydajność i zasoby**
 Symfony zużywa istotnie mniej pamięci oraz wykonuje pojedyncze zapytania SQL, co obniża koszty infrastruktury i pozwala utrzymać wysoką wydajność przy rosnącym ruchu lub liczbie produktów.
 
