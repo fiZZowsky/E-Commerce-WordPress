@@ -1478,13 +1478,19 @@ Podsumowując, WordPress oferuje bardziej przystępną, bogato ilustrowaną i sz
 
 ## Podsumowanie czasów wykonania poszczególnych sekcji
 a) Symfony
-
+- Strona główna - 3,5h
+- Kolekcja butów - 8h
+- Szczegóły produktu - 1,5h
+- Koszyk - 2,5h
 
 b) Wordpress
 - Strona główna - 1,5h
 - Strona sklepu - 4h
 - Szczegóły produktu - 0,5h
 - Koszyk - 0,2h
+  
+
+![Wykres podsumowania czasów](doc-resources/chart7.png)
 
 ---
 ## Podsumowanie
