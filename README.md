@@ -13,11 +13,18 @@
 3. [Struktura WordPress](#struktura-wordpress)  
 4. [Zastosowania WordPress](#zastosowania-wordpress)  
 5. [Zalety i wady WordPress](#zalety-i-wady-wordpress)  
-6. [Porównanie najpopularniejszych motywów](#porownanie-najpopularniejszych-motywow)  
-7. [Porównanie obszarów: WordPress vs Symfony](#porownanie-obszarow-wordpress-vs-symfony)  
+6. [Porównanie najpopularniejszych motywów](#porównanie-najpopularniejszych-motywów)  
+7. [Porównanie obszarów: WordPress vs Symfony](#porównanie-obszarów-wordpress-vs-symfony)  
    - [Instalacja i konfiguracja](#instalacja-i-konfiguracja)  
-   - [Schemat docker-compose.yml](#schemat-docker-composeyml)  
-   - [Czas wdrożenia](#czas-wdrozenia)  
+   - [Czas wdrożenia](#czas-wdrożenia)
+8. [Podłączenie i komunikacja z bazą danych](#podlaczenie-i-komunikacja-z-baza-danych)
+9. [Zarządzanie produktami](#zarzadzanie-produktami)
+10. [Zarządzanie użytkownikami](#zarzadzanie-uzytkownikami)
+11. [Szablony i wygląd (UI/UX)](#szablony-i-wyglad-uiux)
+12. [Społeczność i dokumentacja](#spolecznosc-i-dokumentacja)
+13. [Dane porównawcze i metryka](#dane-porownawcze-i-metryka)
+14. [Podsumowanie czasów wykonania poszczególnych sekcji](#Podsumowanie-czasow-wykonania-poszczegolnych-sekcji)
+15. [Podsumowanie](#podsumowanie)
 
 ---
 
@@ -169,7 +176,6 @@ e) **Czas wdrożenia**
    - Pierwsze uruchomienie serwera deweloperskiego i weryfikacja działania: 2–3 minuty.
 
 - W sumie od zera do działającej aplikacji Symfony (bez zaawansowanego własnego kodu) potrzeba około 10–15 minut.
-
 
 #### 2) Wordpress
   a) wymagania wstępne:
@@ -1461,4 +1467,44 @@ Pod względem lokalizacji i dostępności materiałów WordPress wygrywa liczbą
 Podsumowując, WordPress oferuje bardziej przystępną, bogato ilustrowaną i szybko działającą dokumentację, idealną dla osób szukających szybkich rozwiązań i szerokiego wyboru gotowych fragmentów kodu. Symfony natomiast dostarcza głęboką, modułową dokumentację skupioną na dobrych praktykach i architekturze aplikacji, co może wymagać większego nakładu pracy, lecz jednocześnie gwarantuje solidne, długoterminowe podstawy projektowe.
 
 ---
+
+## Podsumowanie czasów wykonania poszczególnych sekcji
+a) Symfony
+
+
+b) Wordpress
+- Strona główna - 1,5h
+- Strona sklepu - 4h
+- Szczegóły produktu - 0,5h
+- Koszyk - 0,2h
+
+---
 ## Podsumowanie
+Pod względem wielkości kodu WordPress jest znacznie obszerniejszy – niemal 19 tys. plików i ponad 600 MB na dysku wobec ok. 12 tys. plików i 171 MB w Symfony. Liczba plików i katalogów wpływa na szybkość operacji w repozytorium oraz czas trwania procesów CI/CD. Każdy dodatkowy plugin lub motyw zwiększa objętość projektu WordPress; Symfony pozostaje bardziej zwarte dzięki selektywnemu doborowi pakietów Composer.
+
+Różnica rozmiaru przekłada się bezpośrednio na zużycie zasobów. Przy identycznym zestawie danych pomiary wykazały, że WordPress wymaga ponad 0,5 GB RAM‑u, a w widoku „kolekcja butów” zużycie wzrasta do 253 MB. Symfony stabilizuje się w okolicach 80 MB i w najbardziej wymagających widokach nie przekracza 40 MB. Oszczędność pamięci znajduje odzwierciedlenie w czasach odpowiedzi: dashboard WordPressa renderuje się w ok. 3 s, a lista produktów w prawie 20 s; Symfony realizuje te same operacje w 0,8 – 1,5 s.
+
+Główną przyczyną opóźnień w WordPressie są zapytania SQL. W widoku listy produktów WordPress wygenerował 12 423 zapytania, co łącznie zajęło niemal 20 s. Symfony, korzystając z Doctrine, ograniczyło się do pojedynczego zapytania trwającego niespełna ćwierć sekundy. Tak duży kontrast wynika z mechanizmu WP_Query, który wraz ze wzrostem katalogu tworzy dużą liczbę pojedynczych zapytań.
+
+Procedura uruchomienia projektu ilustruje odmienne podejścia obu platform. WordPress można zainstalować w Dockerze w kilkanaście minut, uzyskując od razu dostęp do WP‑Admin i WooCommerce, obejmujących pełną funkcjonalność sklepu. Symfony wymaga użycia CLI, Composera i ręcznej konfiguracji bundli; jednak komenda „symfony new … --full” oraz instalacja zależności także mieści się w ok. 10 minutach.
+
+W panelach administracyjnych różnica jest równie wyraźna. WP‑Admin stanowi kompletny interfejs przeznaczony również dla użytkowników bez przygotowania programistycznego. Symfony nie zawiera natywnego panelu; najczęściej wybierane EasyAdmin lub SonataAdmin tworzą interfejs CRUD szybko, lecz wymagają konfiguracji routingu i plików YAML.
+
+Społeczność WordPressa jest szeroka – tysiące motywów, wtyczek, tutoriali oraz for w wielu językach ułatwiają pozyskiwanie gotowych rozwiązań. Społeczność Symfony jest mniejsza, lecz silnie ukierunkowana na najlepsze praktyki programistyczne; dokumentacja modułowa wymaga większego nakładu pracy przy adaptacji.
+
+<ins>**Wnioski**</ins>
+**Wydajność i zasoby**
+Symfony zużywa istotnie mniej pamięci oraz wykonuje pojedyncze zapytania SQL, co obniża koszty infrastruktury i pozwala utrzymać wysoką wydajność przy rosnącym ruchu lub liczbie produktów.
+
+**Czas wdrożenia (time‑to‑market)**
+WordPress wraz z WooCommerce umożliwia szybkie uruchomienie sklepu internetowego bez konieczności głębokich prac programistycznych, co jest korzystne w projektach wymagających szybkiego MVP.
+
+**Elastyczność i spójność architektury**
+Symfony wymaga większej ilości kodu na etapie początkowym, jednak zapewnia pełną kontrolę nad architekturą, bezpieczeństwem i logiką biznesową. WordPress oferuje rozbudowę poprzez wtyczki, co przyspiesza implementację nowych funkcji, lecz może prowadzić do niejednorodności kodu i wzrostu długu technicznego.
+
+**Utrzymanie i bezpieczeństwo**
+Ze względu na popularność WordPress wymaga częstszych aktualizacji rdzenia i wtyczek, a liczba rozszerzeń zwiększa powierzchnię potencjalnych zagrożeń. Symfony, z mniejszą liczbą zależności zarządzanych przez Composer, wiąże się z niższym ryzykiem pojawienia się krytycznych podatności.
+
+**Profil zastosowań**
+WordPress – małe i średnie sklepy lub serwisy, gdzie kluczowy jest krótki czas wdrożenia oraz dostępność gotowych rozszerzeń.
+Symfony – systemy o złożonej logice biznesowej, wysokich wymaganiach wydajnościowych i perspektywie długoterminowego rozwoju.
