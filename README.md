@@ -922,33 +922,41 @@ Opisane możliwości panelu administracyjnego WordPress pozwalają na kompleksow
 
 ---
 ## Dane porównawcze i metryka
-**1. Liczba plików**
+## **1. Liczba plików**
 
-**2. Ilość zależności**
+![Wykres liczba plików](doc-resources/Liczba_plików_projektu_wordpress.png)
 
-**3. Rozmiar projektu na dysku**
+![Wykres liczba plików](doc-resources/chart1.png)
 
-**4. Zużycie pamięci RAM**
+## **2. Ilość zależności**
 
-**5. Czasy ładowania widoków, rozmiar wygenerowanej strony (payload)**
+![Wykres liczba pakietów i zależności](doc-resources/chart2.png)
 
-a) **Dashboard**
+## **3. Rozmiar projektu na dysku**
 
-b) **Kolekcja butów**
+![Wykres rozmiar plików](doc-resources/chart3.png)
 
-c) **Podgląd danego produktu**
+## **4. Zużycie pamięci RAM**
 
-d) **Koszyk**
+![Wykres zużycie RAM](doc-resources/chart4.png)
 
-**6. Czas zapytania do bazy i liczba zapytań SQL**
+## **5. Czasy ładowania widoków (payload)**
 
-a) **Dashboard**
+![Wykres czay ładowania](doc-resources/StronaGlownaCzasy.png)
 
-b) **Kolekcja butów**
+![Wykres czay ładowania](doc-resources/chart5.png)
 
-c) **Podgląd danego produktu**
+## **6. Czas zapytania do bazy danych i liczba zapytań SQL**
 
-d) **Koszyk**
+![Wykres czay ładowania](doc-resources/SklepCzasy.png)
+
+a) Liczba zapytań SQL
+
+![Wykres czay ładowania](doc-resources/chart6.1.png)
+
+a) Czas zapytania do bazy danych
+
+![Wykres czay ładowania](doc-resources/chart6.2.png)
 
 ---
 ## Szablony i wygląd (UI/UX)
